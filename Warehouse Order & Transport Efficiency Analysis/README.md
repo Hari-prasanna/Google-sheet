@@ -13,7 +13,7 @@ Pulls the raw data from all three sources.
 - Crucially, for every order, the script also identified and counted all other "active transports" (non-order-related movements) happening at the same time.
 - Analysis: The final report compiled this information into a single overview, allowing us to directly compare an order's wait time against the level of "system congestion" at that exact moment.
 
-![](https://github.com/Hari-prasanna/SQL-Nextflix-Project/blob/main/logo.png)
+![](https://github.com/Hari-prasanna/Google-sheet/blob/f1f763f5e95ef9c3eb1d1bc54e105710b2907b14/Warehouse%20Order%20%26%20Transport%20Efficiency%20Analysis/Project_%20Automated%20Daily%20Inventory%20Reporting%20-%20visual%20selection%20(2).png)
 
 ## Impact
 The report provided a clear, data-driven insight: Whenever the number of "active transports" in the warehouse was high, order durations increased significantly.
