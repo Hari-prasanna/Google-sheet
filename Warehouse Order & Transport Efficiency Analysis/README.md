@@ -13,6 +13,8 @@ Pulls the raw data from all three sources.
 - Crucially, for every order, the script also identified and counted all other "active transports" (non-order-related movements) happening at the same time.
 - Analysis: The final report compiled this information into a single overview, allowing us to directly compare an order's wait time against the level of "system congestion" at that exact moment.
 
+![](https://github.com/Hari-prasanna/SQL-Nextflix-Project/blob/main/logo.png)
+
 ## Impact
 The report provided a clear, data-driven insight: Whenever the number of "active transports" in the warehouse was high, order durations increased significantly.
 This analysis proved that the root cause of the delay was a lack of prioritization. Armed with this evidence, management implemented a new prioritization logic in the warehouse control system. This change ensured that retrieving an order's shipping cartons was always treated as a high-priority task, resulting in measurable improvements in order processing speed and workstation efficiency.
