@@ -1,4 +1,4 @@
-Warehouse Congestion & Order Delay Analysis
+**Warehouse Congestion & Order Delay Analysis**
 
 This repository contains a Google Apps Script project designed to analyze and identify bottlenecks in a warehouse palletization workstation.
 
