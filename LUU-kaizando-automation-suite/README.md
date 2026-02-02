@@ -40,6 +40,7 @@ graph TD
 Replacing boring email alerts, I implemented **JSON Webhooks** to push "Rich Cards" to Google Chat. This allows managers to see the **Problem** and **Proposed Solution** instantly without opening the database.
 
 ![Google Chat Notification](./images/chat-card.png)
+
 *Automated alert sent to the Quality Management channel immediately upon submission.*
 
 ### 2. Monthly Gamification Reports (HTML)
@@ -116,3 +117,31 @@ function translateOverviewColumns() {
     }
   }
 }
+```
+
+### 3. Dynamic HTML Email Generation
+I used template literals to inject user data (Name, Points) into an HTML structure, enabling a professional, branded email experience.
+
+```javascript
+// Parsing logic to humanize the email greeting
+var namePart = emailAddress.split('@')[0]; 
+var firstName = namePart.charAt(0).toUpperCase() + namePart.slice(1);
+
+// HTML Template
+var emailBody = `
+  <p>Hallo ${firstName}👋,</p>
+  <p>Vielen Dank für deinen Beitrag!</p>
+  <p>Dein aktuelles Prämienguthaben beträgt <b style="color: #0000FF;">${points} Punkte.</b></p>
+  <hr>
+  <p>Keep the ideas coming!</p>
+`;
+
+GmailApp.sendEmail(emailAddress, subject, "Fallback Text", { htmlBody: emailBody });
+```
+
+---
+
+## 🚀 Results & Impact
+* **90% Reduction in Admin Time:** Automated the manual translation and data entry, saving the team ~15 minutes per day.
+* **Zero Latency:** Shifted from "Daily Checks" to "Instant Notifications," allowing for immediate feedback on urgent safety or process ideas.
+* **Scalability:** The system handles inputs from 3 different languages and consolidates them into a single source of truth without human intervention.
