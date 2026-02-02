@@ -25,7 +25,7 @@ function sendMonthlyPointReminders() {
   var data = dataRange.getValues();
 
   // 3. Define the email subject
-  var subject = "Dein monatliches Kaizando-Punkte-Update / Twoje miesięczne podsumowanie punktów Kaizando / Your Monthly Kaizando Points Update";
+  var subject = "Dein monatliches Kaizando-Punkte-Update / Your Monthly Kaizando Points Update";
   var blueStyle = "color: #0000FF;"; // CSS Style for highlighting
 
   // 4. LOOP THROUGH USERS (Start at row 1 to skip header)
@@ -40,18 +40,18 @@ function sendMonthlyPointReminders() {
       // 5. EXTRACT FIRST NAME LOGIC
       var firstName = ""; 
       try {
-        var namePart = emailAddress.split('@')[0]; // "hari.prasanna"
-        var firstNameRaw = namePart.split('.')[0]; // "hari"
+        var namePart = emailAddress.split('@')[0]; 
+        var firstNameRaw = namePart.split('.')[0]; 
         if (firstNameRaw) {
-          firstName = firstNameRaw.charAt(0).toUpperCase() + firstNameRaw.slice(1); // "Hari"
+          firstName = firstNameRaw.charAt(0).toUpperCase() + firstNameRaw.slice(1); 
         }
       } catch (e) {
         Logger.log("Could not parse name for: " + emailAddress);
       }
 
-      // 6. HTML EMAIL TEMPLATE
+      // 6. HTML EMAIL TEMPLATE (Cleaned to remove Hidden Unicode Warning)
       var emailBody = `
-        <p>🇩🇪 Deutsch</p>
+        <p><b>[DE] Deutsch</b></p>
         <p>Hallo ${firstName}👋,</p>
         <p>vielen Dank für dein Engagement und deine wertvollen Beiträge zu unserem <span style="${blueStyle}">Kaizando-Prozess</span>. Jede Idee hilft uns bei der kontinuierlichen Verbesserung unserer Abläufe am Standort.</p>
         <p>Dein aktuelles Prämienguthaben beträgt <b>${points} Punkte.</b></p>
@@ -62,7 +62,7 @@ function sendMonthlyPointReminders() {
         <div style="border-top: 2.5px dashed #000; margin: 4px 0;"></div>
         <br>
 
-        <p>🇵🇱 Polski</p>
+        <p><b>[PL] Polski</b></p>
         <p>Cześć ${firstName}👋,</p>
         <p>dziękujemy za Twoje zaangażowanie i cenny wkład w nasz <span style="${blueStyle}">proces Kaizando</span>. Każdy pomysł pomaga nam w ciągłym doskonaleniu naszych procesów w tej lokalizacji.</p>
         <p>Twoje obecne saldo punktów premium wynosi <b>${points} punktów.</b></p>
@@ -73,7 +73,7 @@ function sendMonthlyPointReminders() {
         <div style="border-top: 2.5px dashed #000; margin: 4px 0;"></div>
         <br>
 
-        <p>🏴󠁧󠁢󠁥󠁮󠁧󠁿 English</p>
+        <p><b>[EN] English</b></p>
         <p>Hello ${firstName}👋,</p>
         <p>thank you for your commitment and your valuable contributions to our <span style="${blueStyle}">Kaizando process</span>. Every idea helps us to continuously improve our processes at the site.</p>
         <p>Your current reward balance is <b>${points} points.</b></p>
