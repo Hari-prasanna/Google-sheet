@@ -23,10 +23,10 @@ I designed an automated pipeline using **Google Apps Script (GAS)** as the backe
 
 ```mermaid
 graph TD
-    A[User Submits Idea (EN/DE/PL)] -->|Google Form| B(Raw Data Sheet)
+    A["User Submits Idea (EN/DE/PL)"] -->|Google Form| B(Raw Data Sheet)
     B -->|Trigger| C{Apps Script Engine}
-    C -->|API Call| D[Google Translate API]
-    D -->|Normalized Text| E[Master Dashboard (DE)]
+    C -->|Native Function| D[LanguageApp Service]
+    D -->|Normalized Text| E[Translated Master Overview DE]
     C -->|JSON Payload| F[Google Chat Webhook]
     F -->|Rich Card| G[Management Channel]
     C -->|Scheduled Trigger| H[HTML Email Engine]
