@@ -21,11 +21,21 @@ I developed a "one-click" Google Apps Script solution to automate the ETL (Extra
     * **Total Processing Time:** Duration from *First Scan* → *Last Scan*.
 * **Congestion Logic:** For every specific order window, the script identifies and counts concurrent "Active Transports" (non-order-related movements) to measure system load.
 
-## 📊 Analysis & Visualization
+## 💻 Automation Script Structure
 
-The automated report compiles the processed data into a single overview, allowing for a direct correlation analysis between an order's wait time and the level of "system congestion" at that specific moment.
+To automate the analysis, I wrote a Google Apps Script that functions as a 4-step ETL (Extract, Transform, Load) pipeline.
 
-![Dashboard Preview](https://github.com/Hari-prasanna/Google-sheet/blob/f1f763f5e95ef9c3eb1d1bc54e105710b2907b14/Warehouse%20Order%20%26%20Transport%20Efficiency%20Analysis/Project_%20Automated%20Daily%20Inventory%20Reporting%20-%20visual%20selection%20(2).png?raw=true)
+### Workflow Logic
+The script executes sequentially to ensure data integrity. It uses the spreadsheet itself as a database, moving data from **Source** → **Staging** → **Archive**.
+
+```mermaid
+graph TD;
+    A[Start: One-Click Trigger] --> B[Step 1: Extract & Prep];
+    B -->|Cleaned Data| C[Step 2: Run Analysis];
+    C -->|Calculate Congestion| D[Step 3: Archive Results];
+    D -->|Save to History| E[Step 4: Cleanup & Reset];
+    E --> F[End];
+```
 
 ## 🚀 Impact & Results
 
