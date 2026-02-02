@@ -1,7 +1,7 @@
 # Warehouse Order & Transport Efficiency Analysis
 
 ## 📌 Project Overview
-Palletization workstations in the warehouse were experiencing significant, unexplained delays during order fulfillment. The working hypothesis was that the automated storage machine (ASRS) was failing to prioritize critical order cartons, instead getting "clogged" by routine, low-priority stock movements.
+Palletization workstations in the warehouse were experiencing significant, unexplained delays during order fulfillment. The working hypothesis was that the automated storage loading machine (AKL) was failing to prioritize critical order cartons, instead getting "clogged" by routine, low-priority stock movements.
 
 **Objective:** To quantify the delays, identify the root cause, and determine if system congestion was negatively impacting order processing speed.
 
