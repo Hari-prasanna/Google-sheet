@@ -31,3 +31,88 @@ graph TD
     F -->|Rich Card| G[Management Channel]
     C -->|Scheduled Trigger| H[HTML Email Engine]
     H -->|Monthly Update| I[Employee Inbox]
+```
+---
+
+## 📸 Key Features & Visuals
+
+### 1. Real-Time "Rich Card" Notifications
+Replacing boring email alerts, I implemented **JSON Webhooks** to push "Rich Cards" to Google Chat. This allows managers to see the **Problem** and **Proposed Solution** instantly without opening the database.
+
+![Google Chat Notification](./images/chat-card.png)
+*Automated alert sent to the Quality Management channel immediately upon submission.*
+
+### 2. Monthly Gamification Reports (HTML)
+To boost engagement, the system runs a monthly cron job that sends personalized HTML emails to employees, displaying their current reward points balance and greeting them in their native language.
+
+![HTML Email](./images/email-preview.png)
+*Dynamic HTML email with conditional formatting based on user data.*
+
+---
+
+## 💻 Technical Implementation
+
+### 1. The Notification Engine (JSON Webhook)
+This script constructs a `CardV2` JSON object and posts it to the Google Chat API. This ensures the notification looks like a native app widget rather than a plain text message.
+
+```javascript
+function sendChatNotification(ticketNum, problem, solution) {
+  var webhookUrl = "YOUR_WEBHOOK_URL_HERE";
+  
+  // Constructing the Card Payload
+  var payload = {
+    "cardsV2": [{
+      "cardId": "unique-id-" + ticketNum,
+      "card": {
+        "header": {
+          "title": "Neue Kaizando Idee 💡",
+          "subtitle": "Task Nr: LUU-" + ticketNum
+        },
+        "sections": [{
+          "widgets": [
+            {
+              "textParagraph": {
+                "text": "<b>Problem:</b><br>" + problem
+              }
+            },
+            {
+              "buttonList": {
+                "buttons": [{
+                  "text": "🔗 Open Task",
+                  "onClick": { "openLink": { "url": rowUrl } }
+                }]
+              }
+            }
+          ]
+        }]
+      }
+    }]
+  };
+
+  // Sending the POST request
+  UrlFetchApp.fetch(webhookUrl, {
+    "method": "post",
+    "contentType": "application/json",
+    "payload": JSON.stringify(payload)
+  });
+}
+```
+
+### 2. The Auto-Translation Middleware
+To ensure data consistency, this script acts as middleware. It detects non-empty cells in the source columns and calls the `LanguageApp` class to normalize text to German (`de`).
+
+```javascript
+function translateOverviewColumns() {
+  // Logic to detect source language and translate to German
+  if (sourceProb !== "") {
+    try {
+      var transProb = LanguageApp.translate(sourceProb, "", "de");
+      var transSol = LanguageApp.translate(sourceSol, "", "de");
+      
+      // Updates the Master Sheet with the translated text
+      sheet.getRange(row, targetCol).setValue(transProb);
+    } catch (e) {
+      console.error("Translation API Error: " + e);
+    }
+  }
+}
