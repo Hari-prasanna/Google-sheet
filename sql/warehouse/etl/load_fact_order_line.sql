@@ -15,7 +15,7 @@ SELECT
     ol.quantity *  COALESCE(dp.unit_cost,  0) AS extended_cost,
     ol.quantity * (COALESCE(dp.unit_price, 0) - COALESCE(dp.unit_cost,  0)) AS margin_dollars
 FROM order_lines ol
-JOIN orders o ON o.order_id = ol.order_id -- should be flaged if orders doesn't match with orders_line (bad data)
+JOIN orders o ON o.order_id = ol.order_id 
 JOIN dim_date dd ON dd.full_date = o.order_date
 LEFT JOIN dim_customer dc 
 ON dc.customer_id = o.customer_id
