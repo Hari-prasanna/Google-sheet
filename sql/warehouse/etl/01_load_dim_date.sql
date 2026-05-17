@@ -18,4 +18,5 @@ SELECT
     TO_CHAR(d, 'YYYY-MM')                    AS year_month,
     TO_CHAR(d, 'YYYY"-Q"Q')                  AS year_quarter,
     EXTRACT(DOW FROM d) IN (0, 6)            AS is_weekend
-FROM generate_series(DATE '2023-01-01', DATE '2026-12-31', INTERVAL '1 day') AS d;
+FROM generate_series(DATE '2023-01-01', DATE '2026-12-31', INTERVAL '1 day') AS d
+ON CONFLICT (date_key) DO NOTHING;

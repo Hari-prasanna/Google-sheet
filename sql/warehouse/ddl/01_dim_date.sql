@@ -21,4 +21,3 @@ CREATE TABLE dim_date (
     year_quarter    CHAR(7)     NOT NULL,           -- '2025-Q1'
     is_weekend      BOOLEAN     NOT NULL
 );
-

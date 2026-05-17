@@ -1,8 +1,13 @@
+BEGIN; -- prevents auto commit
+
+TRUNCATE TABLE fact_order_lines; -- start step 1
+
 INSERT INTO fact_order_lines (
     date_key, customer_key, salesperson_key, product_key,
     order_id, line_no,
     quantity, extended_price, extended_cost, margin_dollars
 )
+
 SELECT
     dd.date_key,                                       
     COALESCE(dc.customer_key, -1) AS customer_key,
@@ -25,4 +30,6 @@ ON ds.salesperson_id = o.salesperson_id
 AND o.order_date BETWEEN ds.effective_date AND ds.expiry_date
 LEFT JOIN dim_product dp 
 ON dp.sku = ol.sku
-AND o.order_date BETWEEN dp.effective_date AND dp.expiry_date;
+AND o.order_date BETWEEN dp.effective_date AND dp.expiry_date; -- step 2
+
+COMMIT; -- now saves after the final step
