@@ -18,3 +18,5 @@ CREATE TABLE dim_product (
     expiry_date         DATE            NOT NULL DEFAULT DATE '9999-12-31',
     is_current          BOOLEAN         NOT NULL DEFAULT TRUE
 );
+
+CREATE INDEX idx_dim_product_natural ON dim_product (sku, is_current);
