@@ -283,23 +283,28 @@ INSERT INTO fact_order_lines (
     quantity, extended_price, extended_cost, margin_dollars
 )
 SELECT
-    dd.date_key,
-    dc.customer_key,
-    ds.salesperson_key,
-    dp.product_key,
+    dd.date_key,                                       
+    COALESCE(dc.customer_key, -1) AS customer_key,
+    COALESCE(ds.salesperson_key, -1) AS salesperson_key,
+    COALESCE(dp.product_key, -1) AS product_key,
     ol.order_id,
     ol.line_no,
-    ol.quantity                                      AS quantity,
-    ol.quantity * p.unit_price                       AS extended_price,
-    ol.quantity * p.unit_cost                        AS extended_cost,
-    ol.quantity * (p.unit_price - p.unit_cost)       AS margin_dollars
-FROM order_lines     ol
-JOIN orders          o   ON o.order_id     = ol.order_id
-JOIN products        p   ON p.sku          = ol.sku
-JOIN dim_date        dd  ON dd.full_date   = o.order_date
-JOIN dim_customer    dc  ON dc.customer_id = o.customer_id      AND dc.is_current
-JOIN dim_salesperson ds  ON ds.salesperson_id = o.salesperson_id AND ds.is_current
-JOIN dim_product     dp  ON dp.sku         = ol.sku             AND dp.is_current;
+    ol.quantity,
+    ol.quantity *  COALESCE(dp.unit_price, 0) AS extended_price,
+    ol.quantity *  COALESCE(dp.unit_cost,  0) AS extended_cost,
+    ol.quantity * (COALESCE(dp.unit_price, 0) - COALESCE(dp.unit_cost,  0)) AS margin_dollars
+FROM order_lines ol
+JOIN orders o ON o.order_id = ol.order_id 
+JOIN dim_date dd ON dd.full_date = o.order_date
+LEFT JOIN dim_customer dc 
+ON dc.customer_id = o.customer_id
+AND o.order_date BETWEEN dc.effective_date AND dc.expiry_date
+LEFT JOIN dim_salesperson ds 
+ON ds.salesperson_id = o.salesperson_id
+AND o.order_date BETWEEN ds.effective_date AND ds.expiry_date
+LEFT JOIN dim_product dp 
+ON dp.sku = ol.sku
+AND o.order_date BETWEEN dp.effective_date AND dp.expiry_date;
 
 -- ============================================================
 -- Smoke tests

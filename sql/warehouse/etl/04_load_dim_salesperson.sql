@@ -5,7 +5,8 @@ OVERRIDING SYSTEM VALUE
 VALUES (-1, -1, 'Unknown',
         'UNK', 'Unknown', 'Unknown',
         'UNK', 'Unknown', 'Unknown',
-        TRUE);
+        TRUE)
+ON CONFLICT(salesperson_key) DO NOTHING; --- prevents the duplication flag for -1 sales_key
 
 INSERT INTO dim_salesperson (
     salesperson_id, salesperson_name,
@@ -20,4 +21,6 @@ SELECT
     DATE '1900-01-01', DATE '9999-12-31', TRUE
 FROM salespeople s
 JOIN territories t ON t.territory_code = s.territory_code
-JOIN regions     r ON r.region_code    = t.region_code;
+JOIN regions     r ON r.region_code    = t.region_code
+WHERE NOT EXISTS(SELECT 1 FROM dim_salesperson ds
+					WHERE ds.salesperson_id = s.salesperson_id AND ds.is_current = TRUE); -- correlated subquery used for idempotent pattern
